@@ -4,6 +4,9 @@ import org.apache.spark.mllib.linalg.{Vector, Vectors}
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.sql.Row
 
+import scala.io.StdIn
+import scala.util.Random
+
 /*
 1. cap-shape: bell=b,conical=c,convex=x,flat=f, knobbed=k,sunken=s
 2. cap-surface: fibrous=f,grooves=g,scaly=y,smooth=s
@@ -29,7 +32,7 @@ import org.apache.spark.sql.Row
 22. habitat: grasses=g,leaves=l,meadows=m,paths=p, urban=u,waste=w,woods=d
 */
 
-object mushroomMap {
+object MushroomMap {
 
   def createLabeledPoints(row: Row): LabeledPoint = {
     val edible = edibleToInt(row.getAs("edible"))
@@ -335,4 +338,175 @@ object mushroomMap {
       case "d" => 6
     }
   }
+
+  def convertMushroomToMappedIntMushroom(mushroom: Array[String]) : Array[Int] = {
+    Array (
+      capShapeToInt(mushroom(0)),
+      capSurfaceToInt(mushroom(1)),
+      capColorToInt(mushroom(2)),
+      bruisesToInt(mushroom(3)),
+      odorToInt(mushroom(4)),
+      gillAttachmentToIntToInt(mushroom(5)),
+      gillSpacingToInt(mushroom(6)),
+      gillSizeToInt(mushroom(7)),
+      gillColorToInt(mushroom(8)),
+      stalkShapeToInt(mushroom(9)),
+      stalkRootToInt(mushroom(10)),
+      stalkSurfaceAboveRingToInt(mushroom(11)),
+      stalkSurfaceBelowRingToInt(mushroom(12)),
+      stalkColorAboveRingToInt(mushroom(13)),
+      stalkColorBelowRingToInt(mushroom(14)),
+      veilTypeToInt(mushroom(15)),
+      veilColorToInt(mushroom(16)),
+      ringNumberToInt(mushroom(17)),
+      ringTypeToInt(mushroom(18)),
+      sporePrintColorToInt(mushroom(19)),
+      populationToInt(mushroom(20)),
+      habitatToInt(mushroom(21))
+    )
+  }
+
+  def introduceMushroom(): Array[String] = {
+
+    println("Introduce cap-shape, options are:\n" +
+      "bell=b,conical=c,convex=x,flat=f, knobbed=k,sunken=s")
+    val capShape = StdIn.readLine()
+
+    println("Introduce cap-surface, options are:\n" +
+      "fibrous=f,grooves=g,scaly=y,smooth=s")
+    val capSurface = StdIn.readLine()
+
+    println("Introduce cap-color, options are:\n" +
+      "brown=n,buff=b,cinnamon=c,gray=g,green=r, pink=p,purple=u,red=e,white=w,yellow=y")
+    val capColor = StdIn.readLine()
+
+    println("Introduce if it has bruises, options are:\n" +
+      "bruises=t,no=f")
+    val bruises = StdIn.readLine()
+
+    println("Introduce odor, options are:\n" +
+      "almond=a,anise=l,creosote=c,fishy=y,foul=f, musty=m,none=n,pungent=p,spicy=s")
+    val odor = StdIn.readLine()
+
+    println("Introduce gill attachment, options are:\n" +
+      "attached=a,descending=d,free=f,notched=n")
+    val gillAttachment = StdIn.readLine()
+
+    println("Introduce gill spacing, options are:\n" +
+      "close=c,crowded=w,distant=d")
+    val gillSpacing = StdIn.readLine()
+
+    println("Introduce gill size, options are:\n" +
+      "broad=b,narrow=n")
+    val gillSize = StdIn.readLine()
+
+    println("Introduce gill color, options are:\n" +
+      "black=k,brown=n,buff=b,chocolate=h,gray=g, green=r,orange=o,pink=p,purple=u,red=e, white=w,yellow=y")
+    val gillColor = StdIn.readLine()
+
+    println("Introduce stalk shape, options are:\n" +
+      "enlarging=e,tapering=t")
+    val stalkShape = StdIn.readLine()
+
+    println("Introduce stalk root, options are:\n" +
+      "bulbous=b,club=c,cup=u,equal=e, rhizomorphs=z,rooted=r,missing=?")
+    val stalkRoot = StdIn.readLine()
+
+    println("Introduce stalk surface above ring, options are:\n" +
+      "fibrous=f,scaly=y,silky=k,smooth=s")
+    val stalkSurfaceAboveRing = StdIn.readLine()
+
+    println("Introduce stalk surface below ring, options are:\n" +
+      "fibrous=f,scaly=y,silky=k,smooth=s")
+    val stalkSurfaceBelowRing = StdIn.readLine()
+
+    println("Introduce stalk color above ring, options are:\n" +
+      "brown=n,buff=b,cinnamon=c,gray=g,orange=o, pink=p,red=e,white=w,yellow=y")
+    val stalkColorAboveRing = StdIn.readLine()
+
+    println("Introduce stalk color below ring, options are:\n" +
+      "brown=n,buff=b,cinnamon=c,gray=g,orange=o, pink=p,red=e,white=w,yellow=y")
+    val stalkColorBelowRing = StdIn.readLine()
+
+    println("Introduce veil type, options are:\n" +
+      "partial=p,universal=u")
+    val veilType = StdIn.readLine()
+
+    println("Introduce veil color, options are:\n" +
+      "brown=n,orange=o,white=w,yellow=y")
+    val veilColor = StdIn.readLine()
+
+    println("Introduce veil number, options are:\n" +
+      "none=n,one=o,two=t")
+    val veilNumber = StdIn.readLine()
+
+    println("Introduce ring type, options are:\n" +
+      "cobwebby=c,evanescent=e,flaring=f,large=l, none=n,pendant=p,sheathing=s,zone=z")
+    val ringType = StdIn.readLine()
+
+    println("Introduce spore print color, options are:\n" +
+      "black=k,brown=n,buff=b,chocolate=h,green=r, orange=o,purple=u,white=w,yellow=y")
+    val sporePrintColor = StdIn.readLine()
+
+    println("Introduce population, options are:\n" +
+      "abundant=a,clustered=c,numerous=n, scattered=s,several=v,solitary=y")
+    val population = StdIn.readLine()
+
+    println("Introduce habitat, options are:\n" +
+      "grasses=g,leaves=l,meadows=m,paths=p, urban=u,waste=w,woods=d")
+    val habitat = StdIn.readLine()
+
+    Array(
+      capShape,
+      capSurface,
+      capColor,
+      bruises,
+      odor,
+      gillAttachment,
+      gillSpacing,
+      gillSize,
+      gillColor,
+      stalkShape,
+      stalkRoot,
+      stalkSurfaceAboveRing,
+      stalkSurfaceBelowRing,
+      stalkColorAboveRing,
+      stalkColorBelowRing,
+      veilType,
+      veilColor,
+      veilNumber,
+      ringType,
+      sporePrintColor,
+      population,
+      habitat
+    )
+  }
+
+  def generateRandomMushroomToTest: Array[Int] = {
+    Array(
+      Random.nextInt(5),
+      Random.nextInt(5),
+      Random.nextInt(9),
+      Random.nextInt(1),
+      Random.nextInt(8),
+      Random.nextInt(3),
+      Random.nextInt(2),
+      Random.nextInt(1),
+      Random.nextInt(11),
+      Random.nextInt(1),
+      Random.nextInt(6),
+      Random.nextInt(3),
+      Random.nextInt(3),
+      Random.nextInt(8),
+      Random.nextInt(8),
+      Random.nextInt(1),
+      Random.nextInt(3),
+      Random.nextInt(2),
+      Random.nextInt(7),
+      Random.nextInt(8),
+      Random.nextInt(5),
+      Random.nextInt(6)
+    )
+  }
+
 }
