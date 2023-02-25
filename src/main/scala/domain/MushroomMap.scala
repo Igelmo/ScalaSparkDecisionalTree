@@ -367,7 +367,6 @@ object MushroomMap {
   }
 
   def introduceMushroom(): Array[String] = {
-
     println("Introduce cap-shape, options are:\n" +
       "bell=b,conical=c,convex=x,flat=f, knobbed=k,sunken=s")
     val capShape = StdIn.readLine()
