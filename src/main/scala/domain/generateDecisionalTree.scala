@@ -42,10 +42,12 @@ class generateDecisionalTree {
 
   val rddLabeledPoints: RDD[LabeledPoint] = dataFrame.rdd.map(createLabeledPoints)
 
-  def generateDecisionalTree(mushroomToEvaluate: Array[Int]) {
+  def generateDecisionalTree(mushroomToEvaluate: Array[Int]): Unit = {
     val categoricalFeaturesInfo: Map[Int, Int] = mapCategoricalFeaturesInfo
 
-    val decisionalTree = DecisionTree.trainClassifier (rddLabeledPoints, 2, categoricalFeaturesInfo, "gini", 5, 32)
+    //val data = MLUtils.loadLibSVMFile(SparkSession.active.sparkContext, "data/agaricus-lepiota.data").cache()
+
+    val decisionalTree = DecisionTree.trainClassifier (rddLabeledPoints, 2, categoricalFeaturesInfo, "gini", 22, 32)
 
     val testMushroom: Vector = Vectors.dense (mushroomToEvaluate.map (_.toDouble) )
 
@@ -53,6 +55,11 @@ class generateDecisionalTree {
 
     println (decisionalTree.toDebugString)
 
-    println (predictions)
+    println("prediction:")
+    predictions match {
+      case 0.0 => println("edible")
+      case 1.0 => println("poisonous")
+      case _ => println("unknown")
+    }
   }
 }
