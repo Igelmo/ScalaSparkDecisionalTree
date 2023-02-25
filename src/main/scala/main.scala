@@ -18,6 +18,7 @@ object main {
       "random: 1, specified: 2")
     val option = StdIn.readLine()
     var mushroomToEvaluate: Array[Int] = Array.emptyIntArray
+
     option match {
       case "1" => {
         println("Generating random mushroom...")
